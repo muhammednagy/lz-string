@@ -1,4 +1,4 @@
-package encoding
+package lzString
 
 import (
 	"errors"
@@ -62,11 +62,11 @@ func getString(last string, data *dataStruct) (string, bool, error) {
 	c := readBits(data.numBits, data)
 	switch c {
 	case 0:
-		str := string(readBits(8, data))
+		str := string(rune(readBits(8, data)))
 		appendValue(data, str)
 		return str, false, nil
 	case 1:
-		str := string(readBits(16, data))
+		str := string(rune(readBits(16, data)))
 		appendValue(data, str)
 		return str, false, nil
 	case 2:
@@ -78,7 +78,7 @@ func getString(last string, data *dataStruct) (string, bool, error) {
 	if c == len(data.dictionary) {
 		return concatWithFirstRune(last, last), false, nil
 	}
-	return "", false, errors.New("Bad character encoding.")
+	return "", false, errors.New("bad character encoding")
 }
 
 // Need to handle UTF-8, so we need to use rune to concatenate
@@ -106,6 +106,4 @@ func DecompressFromEncodedUriComponent(input string) (string, error) {
 		appendValue(&data, concatWithFirstRune(last, str))
 		last = str
 	}
-
-	return "", errors.New("Unexpected end of buffer reached.")
 }

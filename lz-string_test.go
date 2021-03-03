@@ -1,4 +1,4 @@
-package encoding
+package lzString
 
 import (
 	"testing"
@@ -20,10 +20,10 @@ func TestDecompress(t *testing.T) {
 	for k, v := range testingValues {
 		result, err := DecompressFromEncodedUriComponent(k)
 		if err != nil {
-			t.Errorf("Unexpected error", err)
+			t.Errorf("Unexpected error %s", err)
 		}
 		if result != v {
-			t.Errorf("Result should be :\n", v, "\n instead of :\n", result)
+			t.Errorf("Result should be : \n %s instead of :\n %s", v,  result)
 		}
 	}
 }
